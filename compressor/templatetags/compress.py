@@ -70,7 +70,14 @@ class CompressorMixin(object):
             else:
                 raise OfflineGenerationError('You have offline compression '
                     'enabled but key "%s" is missing from offline manifest. '
-                    'You may need to run "python manage.py compress".' % key)
+                    'You may need to run "python manage.py compress".' 
+                    '\nThe content used to generate the key is as follows:\n%s'
+                    '\nThe offline manifest is as follows:\n%s' % (
+                        key,
+                        self.get_original_content(context),
+                        offline_manifest
+                    )
+                )
 
     def render_cached(self, compressor, kind, mode, forced=False):
         """
